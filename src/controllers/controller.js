@@ -20,17 +20,25 @@ const createData = async function (req, res) {
         if (Object.keys(Data).length === 0) {
             return res.status(400).send({ status: false, msg: "Data is required" });
         }
-        // Validate Id and addData fields
+        // Validate all requestbody
         if (!isValid(Data.Id)) {
             return res.status(400).send({ status: false, msg: "Id is required" });
         }
-        if (!isValid(Data.addData)) {
-            return res.status(400).send({ status: false, msg: "Data is required" });
+        if (!isValid(Data.Name)) {
+            return res.status(400).send({ status: false, msg: "Name is required" });
+        }
+        if (!isValid(Data.employeeId)) {
+            return res.status(400).send({ status: false, msg: "employeeId is required" });
+        }
+        if (!isValid(Data.companyName)) {
+            return res.status(400).send({ status: false, msg: "companyName is required" });
         }
         // Create new document based on request data
         const addDatas = {
             Id: Data.Id.toString(),
-            addData: Data.addData.toString()
+            Name: Data.Name.toString(),
+            employeeId:Data.employeeId,
+            companyName:Data.companyName
         };
         // Increment add count
         addCount++;
@@ -55,17 +63,20 @@ const updateData = async function (req, res) {
         if (!isValid(id)) {
             return res.status(400).send({ status: false, msg: "Id is required" });
         }
-        if (!isValid(Data.addData)) {
+         // Check if request body is empty
+         if (Object.keys(Data).length === 0) {
             return res.status(400).send({ status: false, msg: "Enter the data to update" });
         }
         // Update data in the database
-        const addDatas = {
-            addData: Data.addData.toString()
-        };
+        // Prepare the update object based on the provided data
+        const updateObject = {};
+        if (Data.Name) updateObject.Name = Data.Name.toString();
+        if (Data.employeeId) updateObject.employeeId = Data.employeeId;
+        if (Data.companyName) updateObject.companyName = Data.companyName;
         // Increment update count
         updateCount++;
         // Find and update document in the database
-        let updated = await addModel.findOneAndUpdate({ Id: id.toString() }, { $set: addDatas }, { new: true });
+        let updated = await addModel.findOneAndUpdate({ Id: id.toString() }, { $set: updateObject }, { new: true });
         // Check if document was found and updated
         if (!updated) {
             return res.status(404).send({ status: false, msg: "Data not found" });

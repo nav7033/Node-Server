@@ -7,11 +7,19 @@ const addDatasSchema = new mongoose.Schema({
         type: String,    
         required: true   
     },
-    addData: {
+    Name: {
         type: String,   
         required: true    
+    },
+    employeeId:{
+        type:String,
+        required:true
+    },
+    companyName:{
+        type:String,
+        required:true
     }
 }, { timestamps: true });  // Include timestamps for createdAt and updatedAt fields
 
 // Create and export a mongoose model based on the schema
-module.exports = mongoose.model('data', addDatasSchema);
+module.exports = mongoose.model('demoNew', addDatasSchema);
