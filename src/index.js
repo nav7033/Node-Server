@@ -7,7 +7,9 @@ const cors = require('cors');
 // Initialize Express application
 const app = express();
 // Enable CORS for all routes
-app.use(cors());
+app.use(cors({
+    origin: 'https://some-mern-demo.netlify.app/', // Replace with your allowed origin
+  }));
 
 // Middleware to parse JSON and URL-encoded request bodies
 app.use(bodyParser.json());
