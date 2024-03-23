@@ -3,9 +3,11 @@ const express = require('express'); // Express framework for Node.js
 const bodyParser = require('body-parser'); // Middleware to parse request body
 const route = require('./routes/route'); // Import route handler
 const mongoose = require('mongoose'); // MongoDB ORM
-
+const cors = require('cors');
 // Initialize Express application
 const app = express();
+// Enable CORS for all routes
+app.use(cors());
 
 // Middleware to parse JSON and URL-encoded request bodies
 app.use(bodyParser.json());
